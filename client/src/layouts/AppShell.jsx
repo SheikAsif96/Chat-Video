@@ -5,7 +5,6 @@ export default function AppShell({ children }) {
     <div
       className="
         h-screen
-        text-slate-100
         flex
         overflow-hidden
       "

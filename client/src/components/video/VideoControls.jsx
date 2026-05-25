@@ -11,12 +11,14 @@ export default function VideoControls({
     <div
       className="
         border-t
-        border-slate-800
         px-5
         py-5
-        bg-slate-950/80
         backdrop-blur
       "
+      style={{
+        background: "var(--bg)",
+        borderColor: "var(--border)",
+      }}
     >
       <div
         className="
@@ -96,12 +98,12 @@ export default function VideoControls({
             flex
             items-center
             justify-center
-            bg-red-500
             hover:bg-red-600
             transition-all
             duration-200
             shadow-lg
           "
+          style={{ color: "var(--danger)" }}
         >
           <PhoneOff size={20} />
         </button>

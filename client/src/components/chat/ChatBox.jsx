@@ -105,23 +105,27 @@ export default function ChatBox({ messages, onSend }) {
       <div
         className="
           border-t
-          border-slate-800
           p-4
-          bg-slate-950
         "
+        style={{
+          background: "var(--bg)",
+          borderColor: "var(--border)",
+        }}
       >
         <div
           className="
             flex
             items-center
             gap-3
-            bg-slate-900
             border
-            border-slate-800
             rounded-2xl
             px-4
             py-3
           "
+          style={{
+            background: "var(--surface)",
+            borderColor: "var(--border)",
+          }}
         >
           <input
             value={message}

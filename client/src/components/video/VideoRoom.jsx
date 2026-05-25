@@ -14,8 +14,10 @@ export default function VideoRoom({ localVideoRef, remoteVideoRef }) {
         <p
           className="
             text-sm
-            text-slate-400
           "
+          style={{
+            color: "var(--text-muted)",
+          }}
         >
           Active Call
         </p>

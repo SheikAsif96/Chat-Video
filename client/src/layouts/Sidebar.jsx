@@ -24,8 +24,10 @@ export default function Sidebar() {
             flex
             items-center
             border-b
-            border-slate-800
           "
+          style={{
+            background: "var(--bg)",
+          }}
         >
           <h1
             className="
@@ -48,12 +50,10 @@ export default function Sidebar() {
               px-4
               py-3
               rounded-xl
-              
-              hover:bg-slate-800
               transition
             "
             style={{
-              background: "var(--surface-light)",
+              background: "var(--surface-hover)",
             }}
           >
             <MessageSquare size={18} />
@@ -69,9 +69,11 @@ export default function Sidebar() {
               px-4
               py-3
               rounded-xl
-              hover:bg-slate-900
               transition
             "
+            style={{
+              background: "var(--surface-hover)",
+            }}
           >
             <Video size={18} />
             <span>Calls</span>
@@ -100,22 +102,28 @@ export default function Sidebar() {
         className="
     p-4
     border-t
-    border-slate-800
     flex
     items-center
     justify-between
     gap-3
   "
+        style={{
+          border: "var(--border)",
+        }}
       >
         <div
           className="
-      bg-slate-900
-      rounded-xl
-      p-3
-      flex-1
-    "
+            rounded-xl
+            p-3
+            flex-1
+            "
+          style={{
+            background: "var(--surface)",
+          }}
         >
-          <p className="text-xs text-slate-400">Current Room</p>
+          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+            Current Room
+          </p>
 
           <p className="mt-1 text-sm font-medium">test-room</p>
         </div>

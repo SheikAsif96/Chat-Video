@@ -198,12 +198,14 @@ export default function RoomPage() {
               className="
               h-16
               border-b
-              border-slate-800
               flex
               items-center
               justify-between
               px-6
             "
+              style={{
+                border: "var(--border)",
+              }}
             >
               <div>
                 <h2
@@ -218,8 +220,10 @@ export default function RoomPage() {
                 <p
                   className="
                   text-sm
-                  text-slate-400
                 "
+                  style={{
+                    color: "var(--text-muted)",
+                  }}
                 >
                   {users.length} online
                 </p>

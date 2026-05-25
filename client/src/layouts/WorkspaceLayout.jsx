@@ -12,11 +12,13 @@ export default function WorkspaceLayout({ chatSection, videoSection }) {
         className="
           flex-1
           border-r
-          border-slate-800
           flex
           flex-col
-          bg-slate-950
         "
+        style={{
+          background: "var(--bg)",
+          borderColor: "var(--border)",
+        }}
       >
         {chatSection}
       </section>
@@ -25,10 +27,12 @@ export default function WorkspaceLayout({ chatSection, videoSection }) {
       <section
         className="
           w-[420px]
-          bg-slate-900/40
           flex
           flex-col
         "
+        style={{
+          background: "var(--bg)",
+        }}
       >
         {videoSection}
       </section>
