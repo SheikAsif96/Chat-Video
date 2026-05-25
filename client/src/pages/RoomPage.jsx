@@ -5,6 +5,8 @@ import ChatBox from "../components/chat/ChatBox";
 import VideoRoom from "../components/video/VideoRoom";
 import { useWebRTC } from "../hooks/useWebRTC";
 import VideoControls from "../components/video/VideoControls";
+import AppShell from "../layouts/AppShell";
+import WorkspaceLayout from "../layouts/WorkspaceLayout";
 
 export default function RoomPage() {
   const roomId = "test-room";
@@ -188,25 +190,75 @@ export default function RoomPage() {
   }
 
   return (
-    <div>
-      <h2>Room: {roomId}</h2>
+    <AppShell>
+      <WorkspaceLayout
+        chatSection={
+          <>
+            <div
+              className="
+              h-16
+              border-b
+              flex
+              items-center
+              justify-between
+              px-6
+            "
+              style={{
+                border: "var(--border)",
+              }}
+            >
+              <div>
+                <h2
+                  className="
+                  text-lg
+                  font-semibold
+                "
+                >
+                  Team Chat
+                </h2>
 
-      <p>Users online: {users.length}</p>
+                <p
+                  className="
+                  text-sm
+                "
+                  style={{
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  {users.length} online
+                </p>
+              </div>
+            </div>
 
-      <VideoRoom
-        localVideoRef={localVideoRef}
-        remoteVideoRef={remoteVideoRef}
+            <div className="flex-1 overflow-hidden">
+              <ChatBox messages={messages} onSend={sendMessage} />
+            </div>
+          </>
+        }
+        videoSection={
+          <>
+            <div
+              className="
+              flex-1
+              overflow-auto
+            "
+            >
+              <VideoRoom
+                localVideoRef={localVideoRef}
+                remoteVideoRef={remoteVideoRef}
+              />
+            </div>
+
+            <VideoControls
+              isMuted={isMuted}
+              isCameraOff={isCameraOff}
+              onToggleMute={toggleMute}
+              onToggleCamera={toggleCamera}
+              onEndCall={endCall}
+            />
+          </>
+        }
       />
-
-      <VideoControls
-        isMuted={isMuted}
-        isCameraOff={isCameraOff}
-        onToggleMute={toggleMute}
-        onToggleCamera={toggleCamera}
-        onEndCall={endCall}
-      />
-
-      <ChatBox messages={messages} onSend={sendMessage} />
-    </div>
+    </AppShell>
   );
 }
