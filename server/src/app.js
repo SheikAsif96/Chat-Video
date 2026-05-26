@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
+const authRoutes = require("./routes/authRoutes");
 
 const socketHandler = require("./sockets");
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL }));
 
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 
 const server = http.createServer(app);
 
