@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
-import { socket } from "../services/socket";
+import { connectSocket, socket } from "../services/socket";
 import ChatBox from "../components/chat/ChatBox";
 import VideoRoom from "../components/video/VideoRoom";
 import { useWebRTC } from "../hooks/useWebRTC";
 import VideoControls from "../components/video/VideoControls";
 import AppShell from "../layouts/AppShell";
 import WorkspaceLayout from "../layouts/WorkspaceLayout";
+import { useAuth } from "../context/AuthContext";
 
 export default function RoomPage() {
   const roomId = "test-room";
-  const username = "User-" + Math.floor(Math.random() * 1000);
+  const { user, logout } = useAuth();
+  const username = user.name || "Guest User";
 
   const localVideoRef = useRef();
   const remoteVideoRef = useRef();
@@ -28,7 +30,7 @@ export default function RoomPage() {
 
   useEffect(() => {
     const setup = async () => {
-      socket.connect();
+      connectSocket();
 
       await init();
 
@@ -102,6 +104,14 @@ export default function RoomPage() {
       console.log("Is Initiator:", isInitiatorRef.current);
     });
 
+    socket.on("connect_error", (error) => {
+      console.log(error.message);
+
+      if (error.message === "Unauthorized") {
+        logout();
+      }
+    });
+
     return () => {
       socket.off("room-users");
       socket.off("chat-history");
@@ -111,6 +121,7 @@ export default function RoomPage() {
       socket.off("answer");
       socket.off("ice-candidate");
       socket.off("initiator");
+      socket.off("connect_error");
       socket.disconnect();
 
       if (peerConnection.current) {
@@ -136,7 +147,6 @@ export default function RoomPage() {
   const sendMessage = (message) => {
     const fullMessage = {
       ...message,
-      username,
       roomId,
     };
 

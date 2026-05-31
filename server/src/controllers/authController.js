@@ -39,6 +39,7 @@ exports.signup = async (req, res) => {
       {
         id: user.id,
         email: user.email,
+        name: user.name,
       },
       process.env.JWT_SECRET,
       {
@@ -91,6 +92,7 @@ exports.login = async (req, res) => {
       {
         id: user.id,
         email: user.email,
+        name: user.name,
       },
       process.env.JWT_SECRET,
       {
