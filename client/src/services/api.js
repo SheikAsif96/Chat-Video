@@ -1,6 +1,24 @@
-import axios from "axios";
-import { API_URL } from "../config/env";
+const API_URL = import.meta.env.VITE_API_URL;
+export async function signup(data) {
+  const response = await fetch(`${API_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
 
-export const api = axios.create({
-  baseURL: API_URL,
-});
+  return response.json();
+}
+
+export async function login(data) {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return response.json();
+}

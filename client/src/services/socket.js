@@ -1,6 +1,14 @@
 import { io } from "socket.io-client";
-import { API_URL } from "../config/env";
+const SERVER_URL = import.meta.env.VITE_SOCKET_URL;
 
-export const socket = io(API_URL, {
+export const socket = io(SERVER_URL, {
   autoConnect: false,
 });
+
+export const connectSocket = () => {
+  socket.auth = {
+    token: localStorage.getItem("token"),
+  };
+
+  socket.connect();
+};

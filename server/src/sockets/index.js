@@ -1,12 +1,31 @@
 const { saveMessage, getRoomMessages } = require("../services/messageService");
+const jwt = require("jsonwebtoken");
 
 const rooms = {};
 
 module.exports = (io) => {
+  io.use((socket, next) => {
+    try {
+      const token = socket.handshake.auth?.token;
+
+      if (!token) {
+        return next(new Error("Unauthorized"));
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      socket.user = decoded;
+
+      next();
+    } catch (error) {
+      next(new Error("Unauthorized"));
+    }
+  });
   io.on("connection", (socket) => {
     console.log("Connected:", socket.id);
+    console.log("Authenticated:", socket.user.email);
 
-    socket.on("join-room", async ({ roomId, username }) => {
+    socket.on("join-room", async ({ roomId }) => {
       socket.join(roomId);
 
       if (!rooms[roomId]) {
@@ -15,7 +34,8 @@ module.exports = (io) => {
 
       rooms[roomId].push({
         socketId: socket.id,
-        username,
+        username: socket.user.name,
+        userId: socket.user.id,
       });
 
       const isInitiator = rooms[roomId].length === 1;
@@ -28,17 +48,31 @@ module.exports = (io) => {
 
       socket.to(roomId).emit("user-joined", {
         socketId: socket.id,
-        username,
+        userId: socket.user.id,
+        username: socket.user.name,
       });
 
       io.to(roomId).emit("room-users", rooms[roomId]);
 
-      console.log(`${username} joined ${roomId}`);
+      console.log(`${socket.user.name} joined ${roomId}`);
     });
 
-    socket.on("send-message", async (data) => {
-      await saveMessage(data);
-      io.to(data.roomId).emit("receive-message", data);
+    socket.on("send-message", async (message) => {
+      const newMessage = {
+        roomId: message.roomId,
+        text: message.text,
+
+        userId: socket.user.id,
+        username: socket.user.name,
+      };
+
+      await saveMessage(
+        newMessage.roomId,
+        newMessage.username,
+        newMessage.text,
+      );
+
+      io.to(newMessage.roomId).emit("receive-message", newMessage);
     });
 
     socket.on("offer", (data) => {

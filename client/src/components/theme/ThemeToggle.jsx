@@ -17,9 +17,11 @@ export default function ThemeToggle() {
         justify-center
         border
         border-slate-700
-        hover:bg-slate-800
         transition
       "
+      style={{
+        background: "var(--surface-hover)",
+      }}
     >
       {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
     </button>

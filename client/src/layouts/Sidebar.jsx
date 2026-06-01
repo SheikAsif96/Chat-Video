@@ -1,7 +1,9 @@
 import { MessageSquare, Video, Users } from "lucide-react";
 import ThemeToggle from "../components/theme/ThemeToggle";
+import { useAuth } from "../context/AuthContext";
 
 export default function Sidebar() {
+  const { logout } = useAuth();
   return (
     <aside
       className="
@@ -129,6 +131,7 @@ export default function Sidebar() {
         </div>
 
         <ThemeToggle />
+        <button onClick={logout}>Logout</button>
       </div>
     </aside>
   );
