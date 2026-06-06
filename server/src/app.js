@@ -16,6 +16,13 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    service: "chat-video-api",
+  });
+});
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
