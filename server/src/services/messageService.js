@@ -1,9 +1,12 @@
 const pool = require("../db");
 
-const saveMessage = async ({ roomId, username, text }) => {
+const saveMessage = async (roomId, username, text) => {
   await pool.query(
-    `INSERT INTO messages (room_id, username, content) 
-        VALUES ($1, $2, $3)`,
+    `
+      INSERT INTO messages
+      (room_id, username, content)
+      VALUES ($1, $2, $3)
+    `,
     [roomId, username, text],
   );
 };
